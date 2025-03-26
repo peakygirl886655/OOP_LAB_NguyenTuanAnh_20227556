@@ -1,6 +1,7 @@
 package DefaultPackage;
 
 public class Cart {
+    //11. Create the Cart class to work with DigitalVideoDisc
     public static final int MAX_NUMBERS_ORDER = 20;
     private DigitalVideoDisc itemOrdered[] = new DigitalVideoDisc[MAX_NUMBERS_ORDER];
     private int qtyOrdered = 0;
@@ -16,7 +17,7 @@ public class Cart {
         }
     }
 
-    //remove DVD
+    //13. Removing items from the cart
     public void removeDigitalVideoDisc(DigitalVideoDisc disc) {
         for(int i = 0;i < qtyOrdered;i++) {
             if(itemOrdered[i].getTitle().equals(disc.getTitle())) {
