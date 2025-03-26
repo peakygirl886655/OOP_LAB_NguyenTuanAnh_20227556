@@ -31,6 +31,19 @@ public class Cart {
         }
     }
 
+    // pass an arbitrary number of arguments for dvd
+//    public void addDigitalVideoDisc(DigitalVideoDisc... dvds) {
+//        if (qtyOrdered + dvds.length <= MAX_NUMBERS_ORDERED) {
+//            for (DigitalVideoDisc disc : dvds) {
+//                itemsOrdered[qtyOrdered] = disc;
+//                qtyOrdered++;
+//            }
+//            System.out.println(dvds.length + " discs added via varargs.");
+//        } else {
+//            System.out.println("Cart full. Only " + (MAX_NUMBERS_ORDERED - qtyOrdered) + " slots left.");
+//        }
+//    }
+
     // 14.2 Overloading by differing the number of parameters
     public void addDigitalVideoDisc(DigitalVideoDisc dvd1, DigitalVideoDisc dvd2) {
         if (qtyOrdered + 2 <= MAX_NUMBERS_ORDER) {
