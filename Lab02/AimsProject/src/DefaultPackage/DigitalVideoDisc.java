@@ -20,6 +20,11 @@ public class DigitalVideoDisc {
         return director;
     }
 
+    // temporarily add a setter for the attribute title of the DigitalVideoDisc class.
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public int getLength() {
         return length;
     }
