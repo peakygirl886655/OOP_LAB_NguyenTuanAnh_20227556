@@ -6,8 +6,8 @@ public class DigitalVideoDisc {
     private String director;
     private int length;
     private float cost;
-
-    //7. Create accessors and mutators for the class DigitalVideoDisc
+ //  Create the DigitalVideoDisc class and its attributes
+    //9. Create accessors and mutators for the class DigitalVideoDisc
     public String getTitle() {
         return title;
     }
@@ -28,7 +28,7 @@ public class DigitalVideoDisc {
         return cost;
     }
 
-    //8. Create Constructor method
+    //10. Create Constructor method
     public DigitalVideoDisc(String title) {
         super();
         this.title = title;

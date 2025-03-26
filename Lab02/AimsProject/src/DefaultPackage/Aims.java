@@ -30,5 +30,6 @@ public class Aims {
         //Remove DVD from cart
         anOrder.removeDigitalVideoDisc(dvd1);
         anOrder.displayCart();
+        // Create aims class
     }
 }
