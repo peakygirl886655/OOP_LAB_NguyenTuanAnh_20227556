@@ -6,8 +6,10 @@ public class DigitalVideoDisc {
     private String director;
     private int length;
     private float cost;
-
-    //7. Create accessors and mutators for the class DigitalVideoDisc
+    private static int nbDigitalVideoDiscs = 0;
+    private int id;
+ //  Create the DigitalVideoDisc class and its attributes
+    //9. Create accessors and mutators for the class DigitalVideoDisc
     public String getTitle() {
         return title;
     }
@@ -20,6 +22,11 @@ public class DigitalVideoDisc {
         return director;
     }
 
+    // temporarily add a setter for the attribute title of the DigitalVideoDisc class.
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public int getLength() {
         return length;
     }
@@ -28,7 +35,7 @@ public class DigitalVideoDisc {
         return cost;
     }
 
-    //8. Create Constructor method
+    //10. Create Constructor method
     public DigitalVideoDisc(String title) {
         super();
         this.title = title;
@@ -50,11 +57,14 @@ public class DigitalVideoDisc {
     }
 
     public DigitalVideoDisc(String title, String category, String director, int length, float cost) {
-        super();
         this.title = title;
         this.category = category;
         this.director = director;
         this.length = length;
         this.cost = cost;
+
+        // increase the DVD number and assign it for the id value
+        nbDigitalVideoDiscs++;
+        this.id = nbDigitalVideoDiscs;
     }
 }

@@ -5,7 +5,7 @@ public class Aims {
 
         //Create a new cart
         Cart anOrder = new Cart();
-
+        //12. Create Carts of DigitalVideoDiscs
         //Crate new DVD objects and add them to the cart
         DigitalVideoDisc dvd1 = new DigitalVideoDisc("The lion King",
                 "Animation","Roger Allder", 87, 19.95f);
