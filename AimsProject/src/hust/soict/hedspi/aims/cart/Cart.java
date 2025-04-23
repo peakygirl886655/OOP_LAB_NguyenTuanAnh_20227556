@@ -1,93 +1,121 @@
 package hust.soict.hedspi.aims.cart;
 
-import hust.soict.hedspi.aims.disc.DigitalVideoDisc;
+import hust.soict.hedspi.aims.media.Media;
+import hust.soict.hedspi.aims.media.DigitalVideoDisc;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import javax.naming.LimitExceededException;
+
 
 public class Cart {
-    //11. Create the Cart class to work with DigitalVideoDisc
-    public static final int MAX_NUMBERS_ORDER = 20;
-    private final DigitalVideoDisc itemOrdered[] = new DigitalVideoDisc[MAX_NUMBERS_ORDER];
-    private int qtyOrdered = 0;
+    public static final int MAX_NUMBERS_ORDERED = 20;
+    // private DigitalVideoDisc itemsOrdered[] = new DigitalVideoDisc[MAX_NUMBERS_ORDERED];
+    // private int qtyOrdered = 0;
 
-    //add DVD
-    public void addDigitalVideoDisc(DigitalVideoDisc disc) {
-        if(qtyOrdered < MAX_NUMBERS_ORDER) {
-            itemOrdered[qtyOrdered++] = disc;
-            System.out.println("DVD has been added");
-        }
-        else {
-            System.out.println("Your cart is full, consider removing before adding a new one");
-        }
-    }
+    private ArrayList<Media> itemsOrdered = new ArrayList<>();
 
-    //14. Working with method overloading
-    //14.1 Overloading by differing types of parameter
-//    public void addDigitalVideoDisc(DigitalVideoDisc[] dvdList) {
-//        if (qtyOrdered + dvdList.length <= MAX_NUMBERS_ORDER) {
-//            for (DigitalVideoDisc disc : dvdList) {
-//                itemOrdered[qtyOrdered] = disc;
-//                qtyOrdered++;
-//            }
-//            System.out.println(dvdList.length + " discs have been added.");
-//        } else {
-//            System.out.println("Not enough space in the cart for all discs.");
-//        }
-//    }
 
-    // pass an arbitrary number of arguments for dvd
-    public void addDigitalVideoDisc(DigitalVideoDisc... dvds) {
-        if (qtyOrdered + dvds.length <= MAX_NUMBERS_ORDER) {
-            for (DigitalVideoDisc disc : dvds) {
-                itemOrdered[qtyOrdered] = disc;
-                qtyOrdered++;
-            }
-            System.out.println(dvds.length + " discs added via varargs.");
+    public void addMedia(Media media) {
+        if (itemsOrdered.contains(media)) {
+            System.out.println("Media '" + media.getTitle() + "' is already in the cart.");
         } else {
-            System.out.println("Cart full. Only " + (MAX_NUMBERS_ORDER - qtyOrdered) + " slots left.");
+            itemsOrdered.add(media);
+            System.out.println("Media '" + media.getTitle() + "' added to the cart.");
         }
     }
 
-    // 14.2 Overloading by differing the number of parameters
-    public void addDigitalVideoDisc(DigitalVideoDisc dvd1, DigitalVideoDisc dvd2) {
-        if (qtyOrdered + 2 <= MAX_NUMBERS_ORDER) {
-            itemOrdered[qtyOrdered] = dvd1;
-            qtyOrdered++;
-            itemOrdered[qtyOrdered] = dvd2;
-            qtyOrdered++;
-            System.out.println("Two discs \"" + dvd1.getTitle() + "\" and \"" + dvd2.getTitle() + "\" have been added.");
+
+    public void removeMedia(Media media) {
+        if (itemsOrdered.remove(media)) { // Sử dụng equals() của Media
+            System.out.println("Media '" + media.getTitle() + "' removed from the cart.");
         } else {
-            System.out.println("The cart cannot hold two more discs.");
+            System.out.println("Media '" + media.getTitle() + "' not found in the cart.");
         }
     }
 
-    //13. Removing items from the cart
-    public void removeDigitalVideoDisc(DigitalVideoDisc disc) {
-        for(int i = 0;i < qtyOrdered;i++){
-            if(itemOrdered[i].getTitle().equals(disc.getTitle())) {
-                for(int j = i;j < qtyOrdered-1;j++) {
-                    itemOrdered[j] = itemOrdered[j+1];
-                }
-            }
-            qtyOrdered--;
-            System.out.println("DVD has been removed");
-            break;
-        }
-    }
 
-    //Display cart
-    public void displayCart() {
-        System.out.println("------- Cart Display -------");
-        for (int i = 0;i <  qtyOrdered;i++) {
-            System.out.printf("%-20s %-15s %-20s %-5d %-5.2f \n", itemOrdered[i].getTitle(), itemOrdered[i].getCategory(),
-                    itemOrdered[i].getDirector(), itemOrdered[i].getLength(), itemOrdered[i].getCost());
-        }
-    }
-
-    //sum the costs
-    public double totalCost(){
-        double total = 0;
-        for(int i = 0;i < qtyOrdered;i++) {
-            total += itemOrdered[i].getCost();
+    public float totalCost() {
+        float total = 0;
+        for (Media media : itemsOrdered) {
+            total += media.getCost();
         }
         return total;
+    }
+
+    public void sortMediaByTitleCost() {
+        Collections.sort(itemsOrdered, Media.COMPARE_BY_TITLE_COST);
+    }
+
+    public void sortMediaByCostTitle() {
+        Collections.sort(itemsOrdered, Media.COMPARE_BY_COST_TITLE);
+    }
+
+
+    public void print() {
+        System.out.println("***********************CART***********************");
+        System.out.println("Ordered Items:");
+        if (itemsOrdered.isEmpty()) {
+            System.out.println("Cart is empty.");
+        } else {
+            for (int i = 0; i < itemsOrdered.size(); i++) {
+                System.out.println((i + 1) + ". " + itemsOrdered.get(i).toString());
+            }
+        }
+        System.out.println("Total cost: " + totalCost() + "$");
+        System.out.println("***************************************************");
+    }
+
+    public Media searchByID(int id) {
+        for (Media media : itemsOrdered) {
+            if (media.getId() == id) {
+                System.out.println("Found Media by ID: " + media.toString());
+                return media;
+            }
+        }
+        System.out.println("No media found with ID: " + id);
+        return null;
+    }
+    public Media searchByTitle(String title) {
+        boolean found = false;
+        for (Media media : itemsOrdered) {
+            // Sử dụng isMatch hoặc equalsIgnoreCase tùy thuộc vào định nghĩa isMatch/equals
+            if (media.getTitle().equalsIgnoreCase(title)) { // Hoặc dùng isMatch nếu có
+                System.out.println("Found Media by Title: " + media.toString());
+                found = true;
+                // Có thể trả về media đầu tiên tìm thấy hoặc một danh sách
+                return media; // Trả về cái đầu tiên
+            }
+        }
+        if (!found) {
+            System.out.println("No media found with title matching: " + title);
+        }
+        return null;
+    }
+
+    public ArrayList<Media> searchAllByTitle(String title) {
+        ArrayList<Media> results = new ArrayList<>();
+        boolean found = false;
+        for (Media media : itemsOrdered) {
+            if (media.getTitle().toLowerCase().contains(title.toLowerCase())) {
+                System.out.println("Found Media containing Title: " + media.toString());
+                results.add(media);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No media found with title containing: " + title);
+        }
+        return results;
+    }
+
+
+    public ArrayList<Media> getItemsOrdered() {
+        return itemsOrdered;
+    }
+
+    public void emptyCart() {
+        itemsOrdered.clear();
+        System.out.println("Cart has been emptied.");
     }
 }
