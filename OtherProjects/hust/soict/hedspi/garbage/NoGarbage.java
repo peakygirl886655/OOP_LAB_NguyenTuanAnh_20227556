@@ -5,15 +5,13 @@ import java.nio.file.Paths;
 
 public class NoGarbage {
     public static void main(String[] args) {
-        String filename = "test.txt"; // Dùng cùng file lớn như GarbageCreator
+        String filename = "F:\\OneDrive - Hanoi University of Science and Technology\\HUST\\2024.2\\OOP_LAB_NguyenTuanAnh_20227556\\OtherProjects\\hust\\soict\\hedspi\\garbage\\test.txt";
         byte[] inputBytes = { 0 };
         long startTime, endTime;
 
         try {
             inputBytes = Files.readAllBytes(Paths.get(filename));
             startTime = System.currentTimeMillis();
-            // Sử dụng StringBuilder hoặc StringBuffer để hiệu quả hơn
-            // StringBuilder sb = new StringBuilder();
             StringBuffer sb = new StringBuffer();
             for (byte b : inputBytes) {
                 sb.append((char) b);
@@ -21,7 +19,6 @@ public class NoGarbage {
             String outputString = sb.toString();
             endTime = System.currentTimeMillis();
             System.out.println("NoGarbage Time (using StringBuffer): " + (endTime - startTime) + " ms");
-            // System.out.println("Output length: " + outputString.length());
         } catch (IOException e) {
             System.err.println("Error reading file: " + e.getMessage());
             System.err.println("Make sure '" + filename + "' exists and is accessible.");

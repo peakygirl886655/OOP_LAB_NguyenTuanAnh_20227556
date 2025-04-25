@@ -7,13 +7,6 @@ import java.util.List;
 public class Book extends Media { // Sau khi có Media
     private ArrayList<String> authors = new ArrayList<>();
 
-    // Constructor (trước khi có Media)
-    // public Book(int id, String title, String category, float cost) {
-    //     this.id = id; // Giả sử có các trường này ban đầu
-    //     this.title = title;
-    //     this.category = category;
-    //     this.cost = cost;
-    // }
 
     // Constructor (sau khi có Media)
     public Book() {
