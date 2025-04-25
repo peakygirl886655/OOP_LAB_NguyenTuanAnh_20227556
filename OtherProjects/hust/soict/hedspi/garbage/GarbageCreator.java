@@ -5,7 +5,7 @@ import java.nio.file.Paths;
 
 public class GarbageCreator {
     public static void main(String[] args) {
-        String filename = "test.txt";
+        String filename = "F:\\OneDrive - Hanoi University of Science and Technology\\HUST\\2024.2\\OOP_LAB_NguyenTuanAnh_20227556\\OtherProjects\\hust\\soict\\hedspi\\garbage\\test.txt";
         byte[] inputBytes = { 0 };
         long startTime, endTime;
 
@@ -18,7 +18,6 @@ public class GarbageCreator {
             }
             endTime = System.currentTimeMillis();
             System.out.println("GarbageCreator Time: " + (endTime - startTime) + " ms");
-            // System.out.println("Output length: " + outputString.length()); // Bỏ comment nếu muốn xem độ dài
         } catch (IOException e) {
             System.err.println("Error reading file: " + e.getMessage());
             System.err.println("Make sure '" + filename + "' exists and is accessible.");
