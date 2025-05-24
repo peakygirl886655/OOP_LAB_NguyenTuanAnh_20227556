@@ -1,7 +1,11 @@
 package hust.soict.hedspi.aims;
 import hust.soict.hedspi.aims.cart.Cart;
+import hust.soict.hedspi.aims.exception.PlayerException;
 import hust.soict.hedspi.aims.media.*;
 import hust.soict.hedspi.aims.store.Store;
+import javafx.collections.ObservableList;
+import javax.swing.JOptionPane;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.InputMismatchException;
@@ -11,7 +15,7 @@ import java.util.Scanner;
 public class Aims {
 
     private static Store store = new Store();
-    private static Cart cart = new Cart();
+    public static Cart cart = new Cart();
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -46,22 +50,31 @@ public class Aims {
 
     // Thiết lập dữ liệu mẫu
     public static void setupStore() {
-        DigitalVideoDisc dvd1 = new DigitalVideoDisc("The Lion King", "Animation", "Roger Allers", 87, 19.95f);
-        CompactDisc cd1 = new CompactDisc("Abbey Road", "Rock", "The Beatles", "George Martin", 22.95f);
-        Track t1 = new Track("Come Together", 259);
-        Track t2 = new Track("Something", 183);
-        cd1.addTrack(t1); cd1.addTrack(t2);
-        Book book1 = new Book("1984", "Dystopian", 15.50f);
-        book1.addAuthor("George Orwell");
-        DigitalVideoDisc dvd2 = new DigitalVideoDisc("Star Wars", "Sci-fi", "George Lucas", 121, 24.95f);
-        DigitalVideoDisc dvd3 = new DigitalVideoDisc("Aladdin", "Animation", "Guy Ritchie", 128, 18.99f);
+        try {
+            DigitalVideoDisc dvd1 = new DigitalVideoDisc("The Lion King", "Animation", "Roger Allers", 87, 19.95f);
+            CompactDisc cd1 = new CompactDisc("Abbey Road", "Rock", "The Beatles", "George Martin", 22.95f);
+            Track t1 = new Track("Come Together", 259);
+            Track t2 = new Track("Something", 183);
+            cd1.addTrack(t1); 
+            cd1.addTrack(t2);
+            Book book1 = new Book("1984", "Dystopian", 15.50f);
+            book1.addAuthor("George Orwell");
+            DigitalVideoDisc dvd2 = new DigitalVideoDisc("Star Wars", "Sci-fi", "George Lucas", 121, 24.95f);
+            DigitalVideoDisc dvd3 = new DigitalVideoDisc("Aladdin", "Animation", "Guy Ritchie", 128, 18.99f);
 
-
-        store.addMedia(dvd1);
-        store.addMedia(cd1);
-        store.addMedia(book1);
-        store.addMedia(dvd2);
-        store.addMedia(dvd3); // Add more items
+            store.addMedia(dvd1);
+            store.addMedia(cd1);
+            store.addMedia(book1);
+            store.addMedia(dvd2);
+            store.addMedia(dvd3); // Add more items
+        } catch (Exception e) {
+            System.err.println("Error setting up store: " + e.getMessage());
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, 
+                "Error setting up store: " + e.getMessage(), 
+                "Setup Exception", 
+                JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 
@@ -99,8 +112,17 @@ public class Aims {
                     title = scanner.nextLine();
                     media = store.findMediaByTitle(title);
                     if (media != null) {
-                        cart.addMedia(media);
-                        System.out.println("Number of items in cart: " + cart.getItemsOrdered().size());
+                        try {
+                            cart.addMedia(media);
+                            System.out.println("Number of items in cart: " + cart.getItemsOrdered().size());
+                        } catch (javax.naming.LimitExceededException e) {
+                            System.err.println("Error adding media to cart: " + e.getMessage());
+                            e.printStackTrace();
+                            JOptionPane.showMessageDialog(null, 
+                                "Error adding media to cart: " + e.getMessage(), 
+                                "Cart Exception", 
+                                JOptionPane.ERROR_MESSAGE);
+                        }
                     } else {
                         System.out.println("Media with title '" + title + "' not found in store.");
                     }
@@ -111,7 +133,17 @@ public class Aims {
                     media = store.findMediaByTitle(title);
                     if (media != null) {
                         if (media instanceof Playable) {
-                            ((Playable) media).play();
+                            try {
+                                ((Playable) media).play();
+                            } catch (PlayerException e) {
+                                System.err.println("Error playing media: " + e.getMessage());
+                                System.err.println("Exception details: " + e.toString());
+                                e.printStackTrace();
+                                JOptionPane.showMessageDialog(null, 
+                                    "Error playing media: " + e.getMessage(), 
+                                    "Player Exception", 
+                                    JOptionPane.ERROR_MESSAGE);
+                            }
                         } else {
                             System.out.println("This media ('" + media.getTitle() + "') is not playable.");
                         }
@@ -157,11 +189,30 @@ public class Aims {
         int choice = getUserChoice();
         switch (choice) {
             case 1: // Add to cart
-                cart.addMedia(media);
+                try {
+                    cart.addMedia(media);
+                } catch (javax.naming.LimitExceededException e) {
+                    System.err.println("Error adding media to cart: " + e.getMessage());
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, 
+                        "Error adding media to cart: " + e.getMessage(), 
+                        "Cart Exception", 
+                        JOptionPane.ERROR_MESSAGE);
+                }
                 break;
             case 2: // Play
                 if (media instanceof Playable) {
-                    ((Playable) media).play();
+                    try {
+                        ((Playable) media).play();
+                    } catch (PlayerException e) {
+                        System.err.println("Error playing media: " + e.getMessage());
+                        System.err.println("Exception details: " + e.toString());
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(null, 
+                            "Error playing media: " + e.getMessage(), 
+                            "Player Exception", 
+                            JOptionPane.ERROR_MESSAGE);
+                    }
                 } else {
                     System.out.println("Invalid choice for this media type.");
                 }
@@ -193,7 +244,16 @@ public class Aims {
             String title = scanner.nextLine();
             Media mediaToRemove = store.findMediaByTitle(title);
             if (mediaToRemove != null) {
-                store.removeMedia(mediaToRemove);
+                try {
+                    store.removeMedia(mediaToRemove);
+                } catch (hust.soict.hedspi.aims.exception.StoreException e) {
+                    System.err.println("Error removing media from store: " + e.getMessage());
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, 
+                        "Error removing media from store: " + e.getMessage(), 
+                        "Store Exception", 
+                        JOptionPane.ERROR_MESSAGE);
+                }
             } else {
                 System.out.println("Media not found.");
             }
@@ -223,7 +283,16 @@ public class Aims {
                     // Cần tìm media trong cart dựa trên title
                     Media mediaToRemove = cart.searchByTitle(title); // Dùng searchByTitle để tìm object trong cart
                     if (mediaToRemove != null) {
-                        cart.removeMedia(mediaToRemove);
+                        try {
+                            cart.removeMedia(mediaToRemove);
+                        } catch (hust.soict.hedspi.aims.exception.MediaNotFoundException e) {
+                            System.err.println("Error removing media from cart: " + e.getMessage());
+                            e.printStackTrace();
+                            JOptionPane.showMessageDialog(null, 
+                                "Error removing media from cart: " + e.getMessage(), 
+                                "Cart Exception", 
+                                JOptionPane.ERROR_MESSAGE);
+                        }
                     } else {
                         // searchByTitle đã in thông báo not found
                     }
@@ -235,7 +304,17 @@ public class Aims {
                     Media mediaToPlay = cart.searchByTitle(title);
                     if (mediaToPlay != null) {
                         if (mediaToPlay instanceof Playable) {
-                            ((Playable) mediaToPlay).play();
+                            try {
+                                ((Playable) mediaToPlay).play();
+                            } catch (PlayerException e) {
+                                System.err.println("Error playing media: " + e.getMessage());
+                                System.err.println("Exception details: " + e.toString());
+                                e.printStackTrace();
+                                JOptionPane.showMessageDialog(null, 
+                                    "Error playing media: " + e.getMessage(), 
+                                    "Player Exception", 
+                                    JOptionPane.ERROR_MESSAGE);
+                            }
                         } else {
                             System.out.println("This media ('" + mediaToPlay.getTitle() + "') is not playable.");
                         }
@@ -294,7 +373,7 @@ public class Aims {
         System.out.println("0. Back");
         System.out.print("Choose option: ");
         int choice = getUserChoice();
-        ArrayList<Media> items = cart.getItemsOrdered();
+        ObservableList<Media> items = cart.getItemsOrdered();
         if (choice == 1) {
             Collections.sort(items, Media.COMPARE_BY_TITLE_COST);
             System.out.println("Cart sorted by Title then Cost:");

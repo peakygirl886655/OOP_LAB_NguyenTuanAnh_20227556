@@ -7,7 +7,8 @@
       <sourceFolder url="file://$MODULE_DIR$/GUIProject/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/OtherProjects" isTestSource="false" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="openjdk-22" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="JavaFX" level="project" />
   </component>
 </module>

@@ -1,9 +1,10 @@
 package hust.soict.hedspi.test.store;
+import hust.soict.hedspi.aims.exception.MediaException;
 import hust.soict.hedspi.aims.media.*;
 import hust.soict.hedspi.aims.store.Store;
 
 public class StoreTest {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MediaException {
         Store store = new Store();
 
         DigitalVideoDisc dvd1 = new DigitalVideoDisc("DVD Title 1", "Category 1", "Director 1", 120, 15.0f);
