@@ -1,5 +1,7 @@
 package hust.soict.hedspi.aims.media;
 
+import hust.soict.hedspi.aims.exception.AuthorException;
+import hust.soict.hedspi.aims.exception.InvalidMediaFieldException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,38 +15,46 @@ public class Book extends Media { // Sau khi có Media
         super();
     }
 
-    public Book(String title) {
+    public Book(String title) throws InvalidMediaFieldException {
         super(title);
     }
 
-    public Book(String title, String category, float cost) {
+    public Book(String title, String category, float cost) throws InvalidMediaFieldException {
         super(title, category, cost);
     }
 
-    public Book(String title, String category, float cost, ArrayList<String> authors) {
+    public Book(String title, String category, float cost, ArrayList<String> authors) throws InvalidMediaFieldException {
         super(title, category, cost);
         this.authors = authors;
     }
 
-    public Book(int id, String title, String category, float cost) {
+    public Book(int id, String title, String category, float cost) throws InvalidMediaFieldException {
         super(id, title, category, cost);
     }
 
 
-    public void addAuthor(String authorName) {
+    public void addAuthor(String authorName) throws AuthorException {
+        if (authorName == null || authorName.trim().isEmpty()) {
+            throw new AuthorException("ERROR: Author name cannot be empty");
+        }
+
         if (authors.contains(authorName)) {
-            System.out.println("Author '" + authorName + "' already exists for this book.");
+            throw new AuthorException("ERROR: Author '" + authorName + "' already exists for this book");
         } else {
             authors.add(authorName);
             System.out.println("Author '" + authorName + "' added.");
         }
     }
 
-    public void removeAuthor(String authorName) {
+    public void removeAuthor(String authorName) throws AuthorException {
+        if (authorName == null || authorName.trim().isEmpty()) {
+            throw new AuthorException("ERROR: Author name cannot be empty");
+        }
+
         if (authors.remove(authorName)) {
             System.out.println("Author '" + authorName + "' removed.");
         } else {
-            System.out.println("Author '" + authorName + "' not found for this book.");
+            throw new AuthorException("ERROR: Author '" + authorName + "' not found for this book");
         }
     }
 

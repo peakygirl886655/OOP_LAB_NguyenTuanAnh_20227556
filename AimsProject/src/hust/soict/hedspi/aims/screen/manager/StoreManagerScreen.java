@@ -1,5 +1,6 @@
 package hust.soict.hedspi.aims.screen.manager;
 
+import hust.soict.hedspi.aims.exception.MediaException;
 import hust.soict.hedspi.aims.media.*;
 import hust.soict.hedspi.aims.store.Store;
 
@@ -116,7 +117,7 @@ public class StoreManagerScreen extends JFrame {
         return center;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MediaException {
         Store sampleStore = new Store();
 
         Book book1 = new Book(1, "The Lord of the Rings", "Fantasy", 19.99f);

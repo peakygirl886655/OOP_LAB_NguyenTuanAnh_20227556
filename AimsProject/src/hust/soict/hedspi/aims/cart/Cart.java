@@ -2,6 +2,9 @@ package hust.soict.hedspi.aims.cart;
 
 import hust.soict.hedspi.aims.media.Media;
 import hust.soict.hedspi.aims.media.DigitalVideoDisc;
+import hust.soict.hedspi.aims.exception.MediaNotFoundException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,10 +16,14 @@ public class Cart {
     // private DigitalVideoDisc itemsOrdered[] = new DigitalVideoDisc[MAX_NUMBERS_ORDERED];
     // private int qtyOrdered = 0;
 
-    private ArrayList<Media> itemsOrdered = new ArrayList<>();
+    private ObservableList<Media> itemsOrdered = FXCollections.observableArrayList();
 
 
-    public void addMedia(Media media) {
+    public void addMedia(Media media) throws LimitExceededException {
+        if (itemsOrdered.size() >= MAX_NUMBERS_ORDERED) {
+            throw new LimitExceededException("ERROR: The number of media has reached its limit");
+        }
+
         if (itemsOrdered.contains(media)) {
             System.out.println("Media '" + media.getTitle() + "' is already in the cart.");
         } else {
@@ -26,11 +33,15 @@ public class Cart {
     }
 
 
-    public void removeMedia(Media media) {
+    public void removeMedia(Media media) throws MediaNotFoundException {
+        if (media == null) {
+            throw new MediaNotFoundException("ERROR: Cannot remove null media");
+        }
+
         if (itemsOrdered.remove(media)) { // Sử dụng equals() của Media
             System.out.println("Media '" + media.getTitle() + "' removed from the cart.");
         } else {
-            System.out.println("Media '" + media.getTitle() + "' not found in the cart.");
+            throw new MediaNotFoundException("ERROR: Media '" + media.getTitle() + "' not found in the cart");
         }
     }
 
@@ -110,7 +121,7 @@ public class Cart {
     }
 
 
-    public ArrayList<Media> getItemsOrdered() {
+    public ObservableList<Media> getItemsOrdered() {
         return itemsOrdered;
     }
 

@@ -1,9 +1,11 @@
 package hust.soict.hedspi.test.cart;
 import hust.soict.hedspi.aims.cart.Cart;
+import hust.soict.hedspi.aims.exception.MediaException;
 import hust.soict.hedspi.aims.media.*;
+import javax.naming.LimitExceededException;
 
 public class CartTest {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MediaException, LimitExceededException {
         Cart cart = new Cart();
 
         DigitalVideoDisc dvd1 = new DigitalVideoDisc("The Lion King", "Animation", "Roger Allers", 87, 19.95f);

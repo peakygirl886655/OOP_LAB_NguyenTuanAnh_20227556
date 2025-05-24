@@ -1,9 +1,10 @@
 package hust.soict.hedspi.test.disc;
 
+import hust.soict.hedspi.aims.exception.MediaException;
 import hust.soict.hedspi.aims.media.DigitalVideoDisc;
 
 public class TestPassingParameter {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MediaException {
         // TODO Auto-generated method stub
         DigitalVideoDisc jungleDVD = new DigitalVideoDisc("Jungle");
         DigitalVideoDisc cinderellaDVD = new DigitalVideoDisc("Cinderella");
@@ -21,7 +22,7 @@ public class TestPassingParameter {
         dvd2 = temp;
     }
 
-    public static void changeTitle(DigitalVideoDisc dvd, String title) {
+    public static void changeTitle(DigitalVideoDisc dvd, String title) throws MediaException {
         String oldTitle = dvd.getTitle();
         dvd.setTitle(title);
         dvd = new DigitalVideoDisc(oldTitle);

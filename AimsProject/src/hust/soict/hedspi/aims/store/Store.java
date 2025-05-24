@@ -1,25 +1,39 @@
 package hust.soict.hedspi.aims.store;
 
+import hust.soict.hedspi.aims.exception.StoreException;
 import hust.soict.hedspi.aims.media.Media;
 import java.util.ArrayList;
 
 public class Store {
+    public static final int MAX_ITEMS_IN_STORE = 100;
     private ArrayList<Media> itemsInStore = new ArrayList<>();
 
-    public void addMedia(Media media) {
+    public void addMedia(Media media) throws StoreException {
+        if (media == null) {
+            throw new StoreException("ERROR: Cannot add null media to store");
+        }
+
+        if (itemsInStore.size() >= MAX_ITEMS_IN_STORE) {
+            throw new StoreException("ERROR: The store is full");
+        }
+
         if (itemsInStore.contains(media)) {
-            System.out.println("Media '" + media.getTitle() + "' already exists in the store.");
+            throw new StoreException("ERROR: Media '" + media.getTitle() + "' already exists in the store");
         } else {
             itemsInStore.add(media);
             System.out.println("Media '" + media.getTitle() + "' added to the store.");
         }
     }
 
-    public void removeMedia(Media media) {
+    public void removeMedia(Media media) throws StoreException {
+        if (media == null) {
+            throw new StoreException("ERROR: Cannot remove null media from store");
+        }
+
         if (itemsInStore.remove(media)) {
             System.out.println("Media '" + media.getTitle() + "' removed from the store.");
         } else {
-            System.out.println("Media '" + media.getTitle() + "' not found in the store.");
+            throw new StoreException("ERROR: Media '" + media.getTitle() + "' not found in the store");
         }
     }
 
